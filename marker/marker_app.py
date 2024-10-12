@@ -8,7 +8,12 @@ from marker.logger import configure_logging
 from marker.models import load_all_models
 
 configure_logging()
+def save_text_to_file(extracted_text, filename="extracted_text.txt"):
+    """Saves the extracted text to a txt file."""
+    with open(filename, "w") as f:
+        f.write(extracted_text)
 
+        
 def display_metadata_as_dataframe(out_meta):
     """Convert the out_meta dictionary into a more structured DataFrame."""
     if isinstance(out_meta, dict):
@@ -26,7 +31,7 @@ def display_metadata_as_dataframe(out_meta):
 def main():
     """Streamlit app to upload PDF and display extracted text, images, and metadata. u"""
     
-    st.title("Text and Table Extractor From PDF File Using Marker")
+    st.title("Text and Table Extractor From PDF File Using Marker OCR.")
 
     # Allow PDF file upload
     uploaded_file = st.file_uploader("Upload PDF file:", type="pdf")
@@ -47,7 +52,16 @@ def main():
             # Display the extracted full text
             st.subheader("Extracted Text:")
             st.text_area("Full Text", value=full_text, height=1000)
-            
+             # Check if the result is a string (entire document text) or a dictionary (page-by-page)
+            if isinstance(full_text, str):
+                # If it's a string, assume it's the entire document
+                st.write("Extracted Text:")
+                st.code(full_text, language="text")
+
+                # Save extracted text to a .txt file
+                save_text_to_file(full_text, "extracted_text.txt")
+                st.success("Text saved to extracted_text.txt")
+                print("Text saved to extracted_text.txt")
             # Display the extracted images
             st.subheader("Extracted Images:")
             if images:

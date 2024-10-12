@@ -1,5 +1,5 @@
 
-# PDF Text and Table Extractor
+# PDF Text and Table Extractor using PDF Plumber OCR
 
 This project is a PDF Text and Table Extractor application built using Streamlit, pdfplumber, ocrmypdf, and Pandas. It allows users to upload a PDF file and extract the text and tables from it. If the PDF is an image-based PDF (non-searchable), the application performs OCR (Optical Character Recognition) to make the text searchable and then extracts the text and tables from the PDF. The extracted tables are converted into Markdown format for display.
 
@@ -32,15 +32,17 @@ Clone or download this repository to your local machine.
 Install the required dependencies listed above.
 Run the Streamlit application using the following command:
 ```bash
-streamlit run main.py
+streamlit run pdfplumber_app.py
 ```
 Open your browser, and you should see the Streamlit interface. Upload a PDF file, and the app will display the extracted text and tables.
 
 
 ## Project Structure
 
-├── main.py                                                                    
-├── README.md                                                                
+├── pdfplumber_app.py - main file to run the application                                                              
+├── README.md - The documentation
+├── requirements.txt - the requirements library installation
+├── plumber - Main Components of the pdfplumber OCR Code                                                           
 
 ## Code Explanation
 ### **preprocess_pdf()** Function:

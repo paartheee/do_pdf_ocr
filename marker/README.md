@@ -1,4 +1,4 @@
-# Text and Table Extractor From PDF Using Marker
+# Text and Table Extractor From PDF Using Marker OCR
 This project is a Streamlit app that allows users to upload a PDF file and extracts its content, including text, images, and metadata, using the Marker OCR and document processing library. The app then displays the extracted data in an interactive manner.
 
 ## Features
@@ -43,9 +43,10 @@ Upload a PDF: After launching, the app will open in your default web browser. Up
 ## File Structure
 Here's the structure of the main components:
 
-- marker_app.py: The main Streamlit application script.
-- requirements.txt : A file that lists the dependencies required to run the app. It might include packages like streamlit, marker, pandas, etc.
-- marker - Main Components of the Code
+├── marker_app.py - main file to run the application                                                              
+├── README.md - The documentation
+├── requirements.txt - the requirements library installation
+├── marker - Main Components of the marker OCR Code     
 
 1. PDF Upload
 The app allows users to upload a PDF file through Streamlit's st.file_uploader(). The uploaded file is then processed using the Marker package.
