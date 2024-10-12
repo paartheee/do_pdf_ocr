@@ -3,9 +3,15 @@ import pandas as pd
 import streamlit as st
 from pdfplumber.utils import extract_text, get_bbox_overlap, obj_to_bbox
 import io
-import ocrmypdf
+import ocrmypdf,json
 
+import re  # Import regular expressions for cleaning text
 
+def clean_text(text):
+    """Cleans the extracted text by removing unwanted repetitive characters."""
+    # This regex removes sequences of more than 2 repeating characters
+    cleaned_text = re.sub(r'(.)\1{2,}', r'\1', text)
+    return cleaned_text
 
 def preprocess_pdf(pdf_file):
     """Processes a PDF file and returns a BytesIO object of the OCR-processed PDF."""
@@ -17,8 +23,7 @@ def preprocess_pdf(pdf_file):
     output_pdf_stream = io.BytesIO()
 
     # Perform OCR with DPI adjustment and other preprocessing options
-    ocrmypdf.ocr(input_pdf_stream, output_pdf_stream, language='eng', skip_text=True, 
-                 image_dpi=300, deskew=True)
+    ocrmypdf.ocr(input_pdf_stream, output_pdf_stream, language='eng', skip_text=True, clean=True)
 
     # After OCR, we need to seek back to the start of the BytesIO object before using pdfplumber
     output_pdf_stream.seek(0)
@@ -26,11 +31,11 @@ def preprocess_pdf(pdf_file):
 
 
 def do_ocr_onpdf(preprocessed_pdf_file):
-    """Extracts text and tables from the OCR-processed PDF using pdfplumber."""
+    """Extracts text and tables from the OCR-processed PDF using pdfplumber and returns JSON."""
     
     # Open the OCR-processed PDF using pdfplumber
     with pdfplumber.open(preprocessed_pdf_file) as pdf:
-        all_text = []
+        pdf_text = {}  # Dictionary to store page-wise text
         
         # Iterate through all pages in the PDF
         for page_num, page in enumerate(pdf.pages):
@@ -56,10 +61,17 @@ def do_ocr_onpdf(preprocessed_pdf_file):
 
             # Extract text from the page, including any tables
             page_text = extract_text(chars, layout=True)
-            all_text.append(f"Page {page_num + 1}:\n{page_text}\n")
+            
+            # Clean the extracted text using the regex filter
+            cleaned_page_text = clean_text(page_text)
+            
+            # Store the cleaned text in the dictionary with page number as key
+            pdf_text[f"Page {page_num + 1}"] = cleaned_page_text
 
-    # Join all the extracted text from all pages
-    return "\n".join(all_text)
+    # Convert the dictionary to a JSON string
+    return json.dumps(pdf_text, indent=4)
+
+
 
 
 def main():
