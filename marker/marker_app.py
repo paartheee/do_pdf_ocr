@@ -55,13 +55,16 @@ def main():
             model_lst = load_all_models()
             for idx, uploaded_file in enumerate(uploaded_files):
                 with st.spinner(f"Processing File {idx + 1}/{total_files}: {uploaded_file.name}..."):
+                    start_time = time.time()
                     # Simulate a delay to show the spinner
                     time.sleep(2)
                     st.subheader(f"Processing File {idx+1}: {uploaded_file.name}")
                     
                     # Extract text, images, and metadata from the PDF
                     full_text, images, out_meta = extract_text_from_pdf(uploaded_file, model_lst)
-                    
+                    processing_time = time.time() - start_time  # End time - start time
+
+                    st.text(f"Extracted Text from {uploaded_file.name} (Processed in {processing_time:.2f} seconds):")
                     # Display the extracted full text with page numbers
                     st.subheader(f"Extracted Text from {uploaded_file.name}:")
                     

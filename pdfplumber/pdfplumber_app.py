@@ -1,14 +1,12 @@
 import streamlit as st
 from plumber.preprocess_pdf import preprocess_pdf
 from plumber.do_ocr_onpdf import do_ocr_onpdf
-import time  # Used to simulate a delay for loading in this example
-
+import time  # Used for calculating the processing time
 
 def save_text_to_file(extracted_text, filename="extracted_text.txt"):
     """Saves the extracted text to a txt file."""
     with open(filename, "w") as f:
         f.write(extracted_text)
-
 
 def main():
     """Streamlit app to upload PDF and display extracted text."""
@@ -25,22 +23,27 @@ def main():
 
             for idx, uploaded_file in enumerate(uploaded_files):
                 with st.spinner(f"Processing File {idx + 1}/{total_files}: {uploaded_file.name}..."):
-                    # Simulate a delay to show the spinner
+                    start_time = time.time()  # Record the start time
+
+                    # Simulate a delay to show the spinner (optional)
                     time.sleep(2)
 
                     # Process the PDF to extract text
                     preprocessed_pdf = preprocess_pdf(uploaded_file)
                     extracted_text = do_ocr_onpdf(preprocessed_pdf)
 
-                    st.subheader(f"Extracted Text from {uploaded_file.name}:")
-                    
+                    # Calculate processing time
+                    processing_time = time.time() - start_time  # End time - start time
+
+                    st.text(f"Extracted Text from {uploaded_file.name} (Processed in {processing_time:.2f} seconds):")
+
                     # Handle page numbers in text
                     if isinstance(extracted_text, dict):  # If text is per-page
                         complete_text = ""
                         for page_num, page_text in extracted_text.items():
                             complete_text += f"\n--- Page {page_num} ---\n{page_text}\n"
                         st.text_area(f"Full Text - {uploaded_file.name}", value=complete_text, height=1000)
-                        
+
                         # Save extracted text to a .txt file with page numbers
                         save_text_to_file(complete_text, f"{uploaded_file.name.replace('.pdf', '')}_extracted_text.txt")        
                         st.success(f"Text saved to {uploaded_file.name.replace('.pdf', '')}_extracted_text.txt")
@@ -48,12 +51,12 @@ def main():
 
                     elif isinstance(extracted_text, str):  # If it's a single string
                         st.text_area(f"Full Text - {uploaded_file.name}", value=extracted_text, height=1000)
-                        
+
                         # Save extracted text to a .txt file
                         save_text_to_file(extracted_text, f"{uploaded_file.name.replace('.pdf', '')}_extracted_text.txt")
                         st.success(f"Text saved to {uploaded_file.name.replace('.pdf', '')}_extracted_text.txt")
                         print(f"Text saved to {uploaded_file.name.replace('.pdf', '')}_extracted_text.txt")
-                    
+
                     else:
                         st.error("Unexpected output format. Expected string but received something else.")
 
@@ -62,7 +65,6 @@ def main():
 
         except Exception as e:
             st.error(f"Error processing file: {e}")
-
 
 if __name__ == "__main__":
     main()

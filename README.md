@@ -58,9 +58,13 @@ Open your browser and upload a PDF file to extract text, images, tables, and met
 ## Project Structure
 
 ├── app.py - Main file to run the application
+
 ├── README.md - The documentation
+
 ├── requirements.txt - The dependencies for the application
+
 ├── marker - Components for Marker OCR extraction
+
 ├── plumber - Components for PDFPlumber OCR extraction
 
 
