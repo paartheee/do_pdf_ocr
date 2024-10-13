@@ -11,6 +11,10 @@ By combining these two approaches, this solution enables precise extraction of b
 
 The repository provides a complete solution for extracting text and tables from PDFs, whether they are text-based or image-based (scanned). It integrates two powerful OCR and PDF processing tools—Marker OCR and PDFPlumber OCR—to handle diverse types of PDFs and deliver comprehensive extraction capabilities. The application is built using Streamlit, offering a user-friendly web interface.
 
+## OCR MOdels
+- PDFPlumber OCR Engine - Tesseract OCR via OCRmyPDF
+- Marker OCR Engine - Surya OCR 
+
 ## Features
 - PDF Upload: Users can upload PDFs via the Streamlit interface.
 - Text Extraction: Extracts and displays text content from uploaded PDFs.
