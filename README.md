@@ -35,7 +35,7 @@ To run this application, you need the following:
 - To install the required dependencies, run the following:
 
 ``` bash
-pip install streamlit marker pdfplumber ocrmypdf pandas PyPDF2 torch torchvision torchaudio
+pip3 install streamlit marker pdfplumber ocrmypdf pandas PyPDF2 torch torchvision torchaudio
 ```
 Ensure you have Tesseract OCR installed for OCRmyPDF. You can find installation instructions on the Tesseract GitHub.
 

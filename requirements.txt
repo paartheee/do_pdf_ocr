@@ -1,0 +1,9 @@
+streamlit 
+pdfplumber 
+marker-pdf
+ocrmypdf 
+pandas 
+PyPDF2 
+torch 
+torchvision 
+torchaudio

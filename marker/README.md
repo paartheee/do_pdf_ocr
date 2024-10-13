@@ -16,16 +16,16 @@ Before running the app, make sure you have the following installed:
 - Marker OCR and document processing library
 - Required dependencies for Marker OCR, including torch, PIL, and pandas
 - Installing Dependencies
-- Install the required Python packages using pip:
+- Install the required Python packages using pip3:
 
 ```bash
-pip install streamlit marker pandas
+pip3 install streamlit marker pandas
 ```
 Additional Required Packages
 The Marker package might require additional dependencies like torch. You can install torch using the following command if it's not already installed:
 
 ```bash
-pip install torch torchvision torchaudio
+pip3 install torch torchvision torchaudio
 ```
 
 Ensure you have the required dependencies, especially for GPU-based acceleration (MPS for Mac, CUDA for NVIDIA GPUs, etc.).
